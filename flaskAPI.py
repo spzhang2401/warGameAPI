@@ -1,6 +1,9 @@
 from flask import Flask, jsonify
 from flask_restful import Api, abort
 from flask_sqlalchemy import SQLAlchemy
+from automaticWar import automaticWar
+from peace import Peace
+from underdog import Underdog
 
 from war import War
 
@@ -63,10 +66,19 @@ def help():
     return jsonify(helpMenu)
 
 
-@app.route('/runGame/<string:A>/<string:B>', methods = ['POST'])
-def runGame(A, B):
+@app.route('/runGame/<int:var>/<string:A>/<string:B>', methods = ['POST'])
+def runGame(var, A, B):
     gameID = WarGame.query.count() + 1
-    g = War(A, B)
+    if (var == 0):
+        g = War(A, B)
+    elif (var == 1):
+        g = Peace(A, B)
+    elif (var == 2):
+        g = automaticWar(A, B)
+    elif (var == 3):
+        g = Underdog(A, B)
+    else:
+        abort(404, message = "Specified variation does not exist.")
     gWinner = g.play()
 
     gSetup = WarGame(id = gameID, playerA = A, playerB = B, winner = gWinner)
@@ -96,6 +108,7 @@ def runGame(A, B):
 
     result = {
         "gameID" : gameID,
+        "variation" : var,
         "playerA": A,
         "playerB": B,
         "winner" : gWinner

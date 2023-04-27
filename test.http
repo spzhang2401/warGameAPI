@@ -2,19 +2,19 @@ get http://127.0.0.1:5000/help
 
 ###
 
-post http://127.0.0.1:5000/runGame/sydney/jane
+post http://127.0.0.1:5000/runGame/0/sydney/jane
 
 ###
 
-post http://127.0.0.1:5000/runGame/sydney/jennifer
+post http://127.0.0.1:5000/runGame/1/sydney/jennifer
 
 ###
 
-post http://127.0.0.1:5000/runGame/jennifer/jane
+post http://127.0.0.1:5000/runGame/2/jennifer/jane
 
 ###
 
-post http://127.0.0.1:5000/runGame/ronit/aarushi
+post http://127.0.0.1:5000/runGame/3/ronit/aarushi
 
 ###
 
