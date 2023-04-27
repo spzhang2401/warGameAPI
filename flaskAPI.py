@@ -4,21 +4,19 @@ from flask_sqlalchemy import SQLAlchemy
 from automaticWar import automaticWar
 from peace import Peace
 from underdog import Underdog
-
 from war import War
-
 
 app = Flask(__name__)
 api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///war.db'
 db = SQLAlchemy(app)
 
+# a database for games
 class WarGame(db.Model):
     id = db.Column(db.Integer, primary_key = True) # unique identifier
     playerA = db.Column(db.String(100)) # playerA's name
     playerB = db.Column(db.String(100)) # playerB's name
     winner = db.Column(db.String(100), nullable=False) # MUST take some sort of information
-    # variation = db.Column(db.Integer) # variation type. Defaults to normal War if unspecified
 
     def __init__(self, id, playerA, playerB, winner):
         self.id = id
@@ -29,6 +27,7 @@ class WarGame(db.Model):
     def __repr__(self):
         return f"War(player A = {self.playerA}, Player B = {self.playerB}, winner = {self.winner})"
 
+# a database for players
 class Player(db.Model):
     name = db.Column(db.String(100), primary_key = True)
     wins = db.Column(db.Integer, nullable = False)
@@ -42,11 +41,8 @@ class Player(db.Model):
     def __repr__(self):
         return f"Player {self.name}: {self.wins} wins, {self.losses} losses."
 
-# Create the database tables
 
 db.create_all()
-# with app.app_context():
-#     db.create_all()
 
 '''
 Functions:
@@ -55,6 +51,8 @@ Functions:
 2. getPlayerStats (GET)
 3. getGame (GET)
 '''
+
+# Help menu
 @app.route('/help', methods = ['GET'])
 def help():
     helpMenu = {
@@ -65,7 +63,7 @@ def help():
     }
     return jsonify(helpMenu)
 
-
+# Simulates a game with specified variant and players. Updates the WarGame and Player databases.
 @app.route('/runGame/<int:var>/<string:A>/<string:B>', methods = ['POST'])
 def runGame(var, A, B):
     gameID = WarGame.query.count() + 1
@@ -81,9 +79,11 @@ def runGame(var, A, B):
         abort(404, message = "Specified variation does not exist.")
     gWinner = g.play()
 
+    # initialize instance of the game
     gSetup = WarGame(id = gameID, playerA = A, playerB = B, winner = gWinner)
     db.session.add(gSetup)
 
+    # If player A is new, instantiate her into the Player db. If not, update her stats.
     pA = Player.query.filter_by(name = A).first()
     if not pA:
         playerA = Player(A, 0, 0)
@@ -94,6 +94,7 @@ def runGame(var, A, B):
         else:
             pA.losses += 1
     
+    # If player B is new, instantiate her into the Player db. If not, update her stats.
     pB = Player.query.filter_by(name = B).first()
     if not pB:
         playerB = Player(B, 0, 0)
@@ -115,7 +116,7 @@ def runGame(var, A, B):
     }
     return jsonify(result), 201
 
-
+# Gets a player's stats from Player database if she exists. 
 @app.route('/getStats/<string:playerName>', methods = ['GET'])
 def getStats(playerName):
     p = Player.query.filter_by(name = playerName).first()
@@ -128,8 +129,7 @@ def getStats(playerName):
     }
     return jsonify(result)
 
-
-
+# Gets a game instance from WarGame database if it exists. 
 @app.route('/getGame/<int:gameID>', methods = ['GET'])
 def getGame(gameID):
     g = WarGame.query.filter_by(id = gameID).first()
