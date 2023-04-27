@@ -1,0 +1,81 @@
+get http://127.0.0.1:5000/help
+
+###
+
+post http://127.0.0.1:5000/runGame/sydney/jane
+
+###
+
+post http://127.0.0.1:5000/runGame/sydney/jennifer
+
+###
+
+post http://127.0.0.1:5000/runGame/jennifer/jane
+
+###
+
+post http://127.0.0.1:5000/runGame/ronit/aarushi
+
+###
+
+get http://127.0.0.1:5000/getStats/jane
+
+###
+
+get http://127.0.0.1:5000/getStats/jennifer
+
+###
+
+get http://127.0.0.1:5000/getStats/sydney
+
+###
+
+get http://127.0.0.1:5000/getStats/ronit
+
+###
+
+get http://127.0.0.1:5000/getStats/aarushi
+
+###
+
+get http://127.0.0.1:5000/getGame/1
+
+###
+
+get http://127.0.0.1:5000/getGame/2
+
+###
+
+get http://127.0.0.1:5000/getGame/3
+
+###
+
+get http://127.0.0.1:5000/getGame/4
+
+###
+
+get http://127.0.0.1:5000/getGame/5
+
+###
+
+get http://127.0.0.1:5000/getGame/6
+
+###
+
+get http://127.0.0.1:5000/getGame/7
+
+###
+
+get http://127.0.0.1:5000/getGame/8
+
+###
+
+get http://127.0.0.1:5000/getGame/9
+
+###
+
+get http://127.0.0.1:5000/getGame/10
+
+###
+
+get http://127.0.0.1:5000/getGame/100

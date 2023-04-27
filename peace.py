@@ -7,7 +7,25 @@ for i in range(4): # for each suit: spades, clubs, diamonds, hearts
         # 11 = Jack; 12 = Queen; 13 = King; 14 = Ace
         orderedDeck.append(j)
 
-class War:
+class Peace:
+    def __init__ (self):
+        # can input player's names:
+        self.playerA = "playerA"
+        self.playerB = "playerB"
+
+        self.gameWon = False
+        self.winner = None
+
+        # shuffle the original deck and split between players:
+        playDeck = orderedDeck.copy()
+        random.shuffle(playDeck)
+        self.playingDeck = playDeck
+
+        self.aCards = self.playingDeck[:26]
+        self.bCards = self.playingDeck[26:]
+
+        self.turnCount = 0
+
     def __init__ (self, playerA, playerB):
         # can input player's names:
         self.playerA = playerA
@@ -50,14 +68,15 @@ class War:
 
         cardA = drawTop(self.aCards)
         cardB = drawTop(self.bCards)
+        # print(cardA, cardB)
 
         soldiers = [] # initialize the war card pile
 
-        if (cardA > cardB):
+        if (cardA < cardB):
             self.aCards.append(cardA)
             self.aCards.append(cardB)
 
-        elif (cardA < cardB):
+        elif (cardA > cardB):
             self.bCards.append(cardB)
             self.bCards.append(cardA)
 
@@ -92,7 +111,7 @@ class War:
                 self.gameWon = True
             
             # add all of the soldier cards into the winner's deck.
-            elif (cardA > cardB):
+            elif (cardA < cardB):
                 self.aCards.extend(soldiers)
             else:
                 self.bCards.extend(soldiers)
@@ -104,5 +123,6 @@ class War:
             else:
                 self.winner = self.playerA
             self.gameWon = True
-
+        # print(len(self.aCards))
+        # print(len(self.bCards))
         return self.winner
