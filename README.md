@@ -24,7 +24,10 @@ As for requests to the server, I have the following endpoints:
 4. GET '/getGame/<int:gameID>' -- this takes a gameID and returns the game's variation number, players, and the winner.
 
 For variation numbers, refer to the following:
+
 0. War (original)
 1. Peace: the card with the lower number wins.
 2. automaticWar: placing a card of rank 2 triggers war as well.
 3. Underdog: The losing player of a War steals the victory if one of their discard cards is a Jack.
+
+Given more time, I would have loved to implement more complex, multi-player variants of the game. I would have also loved to implement a GUI for this project. I've learned just this semester how to do so with a Java back-end and a TypeScript front-end, but figured I may need more time to learn how the same principles work with a language like Python. 
